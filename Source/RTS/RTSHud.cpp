@@ -3,6 +3,9 @@
 
 #include "RTSHud.h"
 
+#include "ClassViewerFilter.h"
+#include "MarqueeSelectorInterface.h"
+
 ARTSHud::ARTSHud():
 PendingSelectedActors(TArray<AActor*>()), ActiveSelectedActors(TArray<AActor*>()),
 MouseStartPosition(), MouseCurrentPosition(), IsSelecting(false)
@@ -37,10 +40,24 @@ void ARTSHud::RenderSelectionBox(const FLinearColor RectColor)
 	DrawRect(RectColor, MouseStartPosition.X, MouseStartPosition.Y, Difference.X, Difference.Y);
 }
 
-void ARTSHud::UpdateSelectionGroup()
+void ARTSHud::UpdateSelectionGroup(UClass* ClassFilter)
 {
-	for (const AActor* Actor : PendingSelectedActors)
+	bool IncludeNonCollidingComponent = false;
+	bool ActorMustBeFullyEnclosed = false;
+	//const FVector2D& FirstPoint, const FVector2D& SecondPoint, TArray<ClassFilter*>& OutActors, bool bIncludeNonCollidingComponents = true, bool bActorMustBeFullyEnclosed = false
+	
+	TArray<AActor*> NewPendingSelection;
+	GetActorsInSelectionRectangle(MouseStartPosition, MouseCurrentPosition, NewPendingSelection, IncludeNonCollidingComponent, ActorMustBeFullyEnclosed);
+	
+	for (AActor* Actor : PendingSelectedActors)
 	{
-		
+		if (!Actor->IsA(ClassFilter)) { continue; }
+		IMarqueeSelectorInterface* MarqueeSelectorActor = Cast<IMarqueeSelectorInterface>(Actor);
+		if (MarqueeSelectorActor == nullptr) { continue; }
+		if (!NewPendingSelection.Contains(Actor))
+		{
+			MarqueeSelectorActor->DeselectUnit();
+		}
 	}
+	PendingSelectedActors = NewPendingSelection;
 }

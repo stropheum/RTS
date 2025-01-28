@@ -6,6 +6,7 @@
 #include "GameFramework/HUD.h"
 #include "RTSHud.generated.h"
 
+class FClassViewerFilter;
 /**
  * 
  */
@@ -30,7 +31,7 @@ protected:
 	void RenderSelectionBox(FLinearColor RectColor);
 	
 	UFUNCTION(BlueprintCallable, Category = "RTS HUD")
-	void UpdateSelectionGroup();
+	void UpdateSelectionGroup(UClass* ClassFilter);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RTS HUD")
 	TArray<AActor*> PendingSelectedActors;
