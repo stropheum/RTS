@@ -3,61 +3,90 @@
 
 #include "RTSHud.h"
 
-#include "ClassViewerFilter.h"
-#include "MarqueeSelectorInterface.h"
+#include "SelectableUnitInterface.h"
 
 ARTSHud::ARTSHud():
 PendingSelectedActors(TArray<AActor*>()), ActiveSelectedActors(TArray<AActor*>()),
 MouseStartPosition(), MouseCurrentPosition(), IsSelecting(false)
 {}
 
-void ARTSHud::LogPendingSelection(const FString Context)
+FString ARTSHud::PassiveSelectionToString()
 {
-	FString log = Context;
+	FString PendingLog = "PENDING:\n";
 	for (const auto Actor : PendingSelectedActors)
 	{
-		log += Actor->GetName();
-		log += ", ";
+		PendingLog += Actor->GetName() + "\n";
 	}
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *log);
+	return PendingLog;
 }
 
-void ARTSHud::LogActiveSelection(const FString Context)
+FString ARTSHud::ActiveSelectionToString()
 {
-	FString log = Context;
+	FString ActiveLog = "Active:\n";
 	for (const auto Actor : ActiveSelectedActors)
 	{
-		log += Actor->GetName();
-		log += ", ";
+		ActiveLog += Actor->GetName() + "\n";
 	}
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *log);
+	return ActiveLog;
+}
+
+void ARTSHud::HandleMarqueeSelectionReleased()
+{
+	IsSelecting = false;
+	// Wipe active selection
+	for (AActor* Actor : ActiveSelectedActors)
+	{
+		if (ISelectableUnitInterface* MarqueeSelectableActor = Cast<ISelectableUnitInterface>(Actor))
+		{
+			MarqueeSelectableActor->DeselectUnit();
+		}
+	}
+	
+	ActiveSelectedActors = PendingSelectedActors; // Migrate pending selection to Active
+	
+	// Select new active Selection
+	for (AActor* Actor : ActiveSelectedActors)
+	{
+		if (const auto SelectableActor = Cast<ISelectableUnitInterface>(Actor))
+		{
+			SelectableActor->SelectUnit();
+		}
+	}
 }
 
 void ARTSHud::RenderSelectionBox(const FLinearColor RectColor)
 {
 	if (!IsSelecting) { return; }
-	FVector2D Difference = MouseCurrentPosition - MouseStartPosition;
+	const FVector2D Difference = MouseCurrentPosition - MouseStartPosition;
 	DrawRect(RectColor, MouseStartPosition.X, MouseStartPosition.Y, Difference.X, Difference.Y);
 }
 
 void ARTSHud::UpdateSelectionGroup(UClass* ClassFilter)
 {
-	bool IncludeNonCollidingComponent = false;
-	bool ActorMustBeFullyEnclosed = false;
-	//const FVector2D& FirstPoint, const FVector2D& SecondPoint, TArray<ClassFilter*>& OutActors, bool bIncludeNonCollidingComponents = true, bool bActorMustBeFullyEnclosed = false
+	constexpr bool IncludeNonCollidingComponent = false;
+	constexpr bool ActorMustBeFullyEnclosed = false;
 	
 	TArray<AActor*> NewPendingSelection;
 	GetActorsInSelectionRectangle(MouseStartPosition, MouseCurrentPosition, NewPendingSelection, IncludeNonCollidingComponent, ActorMustBeFullyEnclosed);
-	
-	for (AActor* Actor : PendingSelectedActors)
+
+	TArray<AActor*> FilteredSelection;
+	for (AActor* Actor : NewPendingSelection)
 	{
-		if (!Actor->IsA(ClassFilter)) { continue; }
-		IMarqueeSelectorInterface* MarqueeSelectorActor = Cast<IMarqueeSelectorInterface>(Actor);
-		if (MarqueeSelectorActor == nullptr) { continue; }
-		if (!NewPendingSelection.Contains(Actor))
+		if (Actor->IsA(ClassFilter) && Actor->Implements<USelectableUnitInterface>())
 		{
-			MarqueeSelectorActor->DeselectUnit();
+			FilteredSelection.Add(Actor);
 		}
 	}
-	PendingSelectedActors = NewPendingSelection;
+
+	for (AActor* Actor : PendingSelectedActors)
+	{
+		if (!FilteredSelection.Contains(Actor))
+		{
+			if (ISelectableUnitInterface* MarqueeSelectableActor = Cast<ISelectableUnitInterface>(Actor))
+			{
+				MarqueeSelectableActor->DeselectUnit();
+			}
+		}
+	}
+	PendingSelectedActors = FilteredSelection;
 }

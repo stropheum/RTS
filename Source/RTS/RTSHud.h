@@ -18,14 +18,16 @@ class RTS_API ARTSHud : public AHUD
 public:
 	ARTSHud();
 	
-	float FooSum(float a, float b);
+	UFUNCTION(BlueprintCallable, Category = "RTS HUD")
+	FString PassiveSelectionToString();
+
+	UFUNCTION(BlueprintCallable, Category = "RTS HUD")
+	FString ActiveSelectionToString();
 
 protected:
-	UFUNCTION(BlueprintCallable, Category = "RTS HUD")
-	void LogPendingSelection(FString Context);
-
-	UFUNCTION(BlueprintCallable, Category = "RTS HUD")
-	void LogActiveSelection(FString Context);
+	
+	UFUNCTION(BlueprintCallable, category = "RTS HUD")
+	void HandleMarqueeSelectionReleased();
 
 	UFUNCTION(BlueprintCallable, Category = "RTS HUD")
 	void RenderSelectionBox(FLinearColor RectColor);
