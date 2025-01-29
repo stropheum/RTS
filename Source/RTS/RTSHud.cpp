@@ -30,15 +30,27 @@ FString ARTSHud::ActiveSelectionToString()
 	return ActiveLog;
 }
 
+void ARTSHud::HandleMarqueeSelectionPressed()
+{
+	for (AActor* Actor : ActiveSelectedActors)
+	{
+		if (Actor->Implements<USelectableUnitInterface>())
+		{
+			ISelectableUnitInterface::Execute_SetSelectionState(Actor, ESelectionState::NotSelected);
+		}
+	}
+	IsSelecting = true;
+}
+
 void ARTSHud::HandleMarqueeSelectionReleased()
 {
 	IsSelecting = false;
 	// Wipe active selection
 	for (AActor* Actor : ActiveSelectedActors)
 	{
-		if (ISelectableUnitInterface* MarqueeSelectableActor = Cast<ISelectableUnitInterface>(Actor))
+		if (Actor->Implements<USelectableUnitInterface>())
 		{
-			MarqueeSelectableActor->DeselectUnit();
+			ISelectableUnitInterface::Execute_SetSelectionState(Actor, ESelectionState::NotSelected);
 		}
 	}
 	
@@ -47,10 +59,11 @@ void ARTSHud::HandleMarqueeSelectionReleased()
 	// Select new active Selection
 	for (AActor* Actor : ActiveSelectedActors)
 	{
-		if (const auto SelectableActor = Cast<ISelectableUnitInterface>(Actor))
+		if (Actor->Implements<USelectableUnitInterface>())
 		{
-			SelectableActor->SelectUnit();
+			ISelectableUnitInterface::Execute_SetSelectionState(Actor, ESelectionState::Selected);
 		}
+		
 	}
 }
 
@@ -77,16 +90,18 @@ void ARTSHud::UpdateSelectionGroup(UClass* ClassFilter)
 			FilteredSelection.Add(Actor);
 		}
 	}
-
+	
 	for (AActor* Actor : PendingSelectedActors)
 	{
 		if (!FilteredSelection.Contains(Actor))
 		{
-			if (ISelectableUnitInterface* MarqueeSelectableActor = Cast<ISelectableUnitInterface>(Actor))
+			if (Actor->Implements<USelectableUnitInterface>())
 			{
-				MarqueeSelectableActor->DeselectUnit();
+				ISelectableUnitInterface::Execute_SetSelectionState(Actor, ESelectionState::Pending);
+				ISelectableUnitInterface::Execute_DeselectUnit(Actor);
 			}
 		}
 	}
+
 	PendingSelectedActors = FilteredSelection;
 }

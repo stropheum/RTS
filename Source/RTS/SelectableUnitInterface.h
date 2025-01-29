@@ -6,6 +6,14 @@
 #include "UObject/Interface.h"
 #include "SelectableUnitInterface.generated.h"
 
+UENUM(BlueprintType)
+enum class ESelectionState : uint8
+{
+	NotSelected UMETA(DisplayName = "Not Selected"),
+	Pending UMETA(DisplayName = "Pending"),
+	Selected UMETA(DisplayName = "Selected"),
+};
+
 UINTERFACE()
 class USelectableUnitInterface : public UInterface
 {
@@ -31,4 +39,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "ISelectableUnit")
 	void DeselectUnit();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ISelectableUnit")
+	void SetSelectionState(ESelectionState State);
 };

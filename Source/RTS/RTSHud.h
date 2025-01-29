@@ -25,6 +25,9 @@ public:
 	FString ActiveSelectionToString();
 
 protected:
+
+	UFUNCTION(BlueprintCallable, category = "RTS HUD")
+	void HandleMarqueeSelectionPressed();
 	
 	UFUNCTION(BlueprintCallable, category = "RTS HUD")
 	void HandleMarqueeSelectionReleased();
