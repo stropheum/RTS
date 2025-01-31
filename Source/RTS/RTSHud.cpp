@@ -1,8 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "RTSHud.h"
-
 #include "SelectableUnitInterface.h"
 
 ARTSHud::ARTSHud():
@@ -32,13 +28,6 @@ FString ARTSHud::ActiveSelectionToString()
 
 void ARTSHud::HandleMarqueeSelectionPressed()
 {
-	for (AActor* Actor : ActiveSelectedActors)
-	{
-		if (Actor->Implements<USelectableUnitInterface>())
-		{
-			ISelectableUnitInterface::Execute_SetSelectionState(Actor, ESelectionState::NotSelected);
-		}
-	}
 	IsSelecting = true;
 }
 
@@ -48,7 +37,7 @@ void ARTSHud::HandleMarqueeSelectionReleased()
 	// Wipe active selection
 	for (AActor* Actor : ActiveSelectedActors)
 	{
-		if (Actor->Implements<USelectableUnitInterface>())
+		if (Actor->Implements<USelectableUnitInterface>() && !PendingSelectedActors.Contains(Actor))
 		{
 			ISelectableUnitInterface::Execute_SetSelectionState(Actor, ESelectionState::NotSelected);
 		}
@@ -87,6 +76,7 @@ void ARTSHud::UpdateSelectionGroup(UClass* ClassFilter)
 	{
 		if (Actor->IsA(ClassFilter) && Actor->Implements<USelectableUnitInterface>())
 		{
+			ISelectableUnitInterface::Execute_SetSelectionState(Actor, ESelectionState::Pending);
 			FilteredSelection.Add(Actor);
 		}
 	}
@@ -95,10 +85,9 @@ void ARTSHud::UpdateSelectionGroup(UClass* ClassFilter)
 	{
 		if (!FilteredSelection.Contains(Actor))
 		{
-			if (Actor->Implements<USelectableUnitInterface>())
+			if (Actor->Implements<USelectableUnitInterface>() && !ActiveSelectedActors.Contains(Actor))
 			{
-				ISelectableUnitInterface::Execute_SetSelectionState(Actor, ESelectionState::Pending);
-				ISelectableUnitInterface::Execute_DeselectUnit(Actor);
+				ISelectableUnitInterface::Execute_SetSelectionState(Actor, ESelectionState::NotSelected);
 			}
 		}
 	}
