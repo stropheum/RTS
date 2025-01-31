@@ -2,7 +2,6 @@
 
 #include "RTSGameMode.h"
 #include "RTSPlayerController.h"
-#include "RTSCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 ARTSGameMode::ARTSGameMode()
@@ -19,7 +18,7 @@ ARTSGameMode::ARTSGameMode()
 
 	// set default controller to our Blueprinted controller
 	static ConstructorHelpers::FClassFinder<APlayerController> PlayerControllerBPClass(TEXT("/Game/TopDown/Blueprints/BP_TopDownPlayerController"));
-	if(PlayerControllerBPClass.Class != NULL)
+	if (!PlayerControllerBPClass.Class)
 	{
 		PlayerControllerClass = PlayerControllerBPClass.Class;
 	}
