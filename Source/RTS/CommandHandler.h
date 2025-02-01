@@ -16,28 +16,17 @@ class RTS_API UCommandHandler : public UActorComponent
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this component's properties
 	UCommandHandler();
 	
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	UInputMappingContext* DefaultMappingContext;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta=(AllowPrivateAccess = "true"))
-	UInputAction* IssueActiveCommandAction;
-    
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta=(AllowPrivateAccess = "true"))
-	UInputAction* IssueMoveCommandAction;
-
-private:
-	void BindInputActions();
+	UFUNCTION(BlueprintCallable, Category = "CommandHandler")
 	void HandleIssueActiveCommand();
+	
+	UFUNCTION(BlueprintCallable, Category = "CommandHandler")
 	void HandleIssueMoveCommand();
-
+	
+protected:
+	virtual void BeginPlay() override;
+	
 public:
-	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-};
+}; 

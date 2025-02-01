@@ -28,9 +28,6 @@ public:
 	float ShortPressThreshold;
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta=(AllowPrivateAccess = "true"))
-	UCommandHandler* CommandHandler;
-
 	/** True if the controlled character should navigate to the mouse cursor. */
 	uint32 bMoveToMouseCursor : 1;
 
@@ -39,9 +36,20 @@ protected:
 	// To add mapping context
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta=(AllowPrivateAccess = "true"))
+	UCommandHandler* CommandHandler;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputMappingContext* DefaultMappingContext;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input, meta=(AllowPrivateAccess = "true"))
+	UInputAction* IssueActiveCommandAction;
+    
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input, meta=(AllowPrivateAccess = "true"))
+	UInputAction* IssueMoveCommandAction;
 
 private:
-	
+
 	FVector CachedDestination;
 
 	bool bIsTouch; // Is it a touch device
