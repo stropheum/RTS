@@ -1,8 +1,8 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
+#include "CommandHandler.h"
 #include "Engine/DecalActor.h"
 #include "NiagaraFunctionLibrary.h"
-#include "CommandHandler.h"
 #include "CommandableInterface.h"
 #include "RTSHud.h"
 
@@ -98,6 +98,9 @@ void UCommandHandler::MoveActiveUnits(const FVector& CommandLocation)
 		{
 			DrawDebugSphere(GetWorld(), UnitCommandLocation, DebugSphereRadius,12,FColor::Red,false, 1.0f);
 			ICommandableInterface::Execute_Command(Unit, ECommand::Move, UnitCommandLocation);
+			// const FRotator TargetRotation = (UnitCommandLocation - Unit->GetActorLocation()).Rotation();
+			// Unit->SetActorRotation(TargetRotation);
+			// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TargetRotation.ToString());
 		}
 	}
 }

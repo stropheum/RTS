@@ -22,6 +22,9 @@ ARTSPlayerController::ARTSPlayerController():
 void ARTSPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	int32 ScreenWidth = 0, ScreenHeight = 0;
+	GetViewportSize(ScreenWidth, ScreenHeight);
+	SetMouseLocation(ScreenWidth / 2.0f, ScreenHeight / 2.0f);
 	CommandHandler = Cast<UCommandHandler>(AddComponentByClass(UCommandHandler::StaticClass(), false, FTransform::Identity, true));
 	UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
 	checkf(EnhancedInputComponent, TEXT("EnhancedInputComponent != NULL"));
