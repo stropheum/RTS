@@ -26,6 +26,11 @@ FString ARTSHud::ActiveSelectionToString()
 	return ActiveLog;
 }
 
+TArray<AActor*> ARTSHud::GetSelectedUnits()
+{
+	return ActiveSelectedActors;
+}
+
 void ARTSHud::HandleMarqueeSelectionPressed()
 {
 	IsSelecting = true;

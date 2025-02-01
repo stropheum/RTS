@@ -23,6 +23,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "RTS HUD")
 	FString ActiveSelectionToString();
+	
+	TArray<AActor*> GetSelectedUnits();
 
 protected:
 
