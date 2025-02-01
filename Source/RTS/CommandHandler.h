@@ -7,6 +7,8 @@
 #include "CommandHandler.generated.h"
 
 
+class ADecalActor;
+class UNiagaraSystem;
 class UInputAction;
 class UInputMappingContext;
 
@@ -17,6 +19,8 @@ class RTS_API UCommandHandler : public UActorComponent
 
 public:
 	UCommandHandler();
+
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
 	UFUNCTION(BlueprintCallable, Category = "CommandHandler")
 	void HandleIssueActiveCommand();
@@ -26,7 +30,13 @@ public:
 	
 protected:
 	virtual void BeginPlay() override;
+	void SpawnCommandReticle(const FVector3d& Location) const;
+
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UNiagaraSystem* FxCursor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<ADecalActor> CommandReticleDecal;
 	
-public:
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 }; 
