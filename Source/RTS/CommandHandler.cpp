@@ -55,6 +55,8 @@ void UCommandHandler::CachePlayerController()
 
 void UCommandHandler::MoveActiveUnits(const FVector& CommandLocation) 
 {
+	const float DebugSphereRadius = 10.0f;
+	DrawDebugSphere(GetWorld(), CommandLocation,  DebugSphereRadius, 12, FColor::Cyan, false, 1.0f);
 	ARTSHud* Hud = Cast<ARTSHud>(PlayerController->GetHUD());
 	if (!Hud)
 	{
@@ -73,17 +75,19 @@ void UCommandHandler::MoveActiveUnits(const FVector& CommandLocation)
 		CenterPoint += Location;
 		PointCount++;
 	}
+	
+	CenterPoint /= PointCount;
+	DrawDebugSphere(GetWorld(), CenterPoint,  DebugSphereRadius, 12, FColor::Cyan, false, 1.0f);
+	DrawDebugLine(GetWorld(), CenterPoint, CommandLocation, FColor::Cyan, false, 1.0f);
 
 	// TODO: Move formation mapping onto selection complete. Redundant to do on every command
 	TMap<const AActor* const, FVector3d> FormationMap;
 	for (const AActor* Unit : Units)
 	{
 		if (!Unit) { continue; }
-		FVector3d OffsetFromFormationCenter = CenterPoint - Unit->GetActorLocation();
+		FVector3d OffsetFromFormationCenter = (Unit->GetActorLocation() - CenterPoint);
 		FormationMap.Add(Unit, OffsetFromFormationCenter);
 	}
-	
-	CenterPoint /= PointCount;
 
 	for (AActor* Unit : Units)
 	{
@@ -92,6 +96,7 @@ void UCommandHandler::MoveActiveUnits(const FVector& CommandLocation)
 		FVector3d UnitCommandLocation = CommandLocation + FormationMap[Unit];
 		if (Unit->Implements<UCommandableInterface>())
 		{
+			DrawDebugSphere(GetWorld(), UnitCommandLocation, DebugSphereRadius,12,FColor::Red,false, 1.0f);
 			ICommandableInterface::Execute_Command(Unit, ECommand::Move, UnitCommandLocation);
 		}
 	}
