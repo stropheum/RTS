@@ -43,7 +43,7 @@ void UCommandHandler::SpawnCommandReticle(const FVector3d& Location) const
 
 void UCommandHandler::HandleIssueActiveCommand()
 {
-	UE_LOG(LogTemp, Fatal, TEXT("IssueActiveCommand"));
+	UE_LOG(LogTemp, Log, TEXT("IssueActiveCommand"));
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("HandleIssueActiveCommand"));
 }
 
