@@ -60,7 +60,7 @@ void UCommandHandler::MoveActiveUnits(const FVector& CommandLocation)
 	ARTSHud* Hud = Cast<ARTSHud>(PlayerController->GetHUD());
 	if (!Hud)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Hud == nullptr"))
+		UE_LOG(LogTemp, Warning, TEXT("Hud == nullptr"))we
 		return;
 	}
 
