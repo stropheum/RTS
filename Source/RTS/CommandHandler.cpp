@@ -98,9 +98,6 @@ void UCommandHandler::MoveActiveUnits(const FVector& CommandLocation)
 		{
 			DrawDebugSphere(GetWorld(), UnitCommandLocation, DebugSphereRadius,12,FColor::Red,false, 1.0f);
 			ICommandableInterface::Execute_Command(Unit, ECommand::Move, UnitCommandLocation);
-			// const FRotator TargetRotation = (UnitCommandLocation - Unit->GetActorLocation()).Rotation();
-			// Unit->SetActorRotation(TargetRotation);
-			// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TargetRotation.ToString());
 		}
 	}
 }
@@ -109,7 +106,7 @@ void UCommandHandler::HandleIssueActiveCommand()
 {
 	// TODO: Once multiple command types are implemented, use this as a switch for command delegation
 	UE_LOG(LogTemp, Log, TEXT("IssueActiveCommand"));
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("HandleIssueActiveCommand"));
+	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("HandleIssueActiveCommand"));
 }
 
 void UCommandHandler::HandleIssueMoveCommand()
