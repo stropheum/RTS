@@ -1,11 +1,12 @@
 #include "RTSHud.h"
 #include "SelectableUnitInterface.h"
+#include "UnitSelectionViewWidget.h"
 
 #pragma region Public Functions
 
 ARTSHud::ARTSHud():
 	PendingSelectedActors(TArray<AActor*>()), ActiveSelectedActors(TArray<AActor*>()),
-	MouseStartPosition(), MouseCurrentPosition(), IsSelecting(false) {}
+	MouseStartPosition(), MouseCurrentPosition(), IsSelecting(false), DefaultSelectionViewTexture(nullptr) {}
 
 void ARTSHud::BeginPlay()
 {
@@ -125,6 +126,12 @@ void ARTSHud::SlateInitUnitSelectionView()
 		Brush->SetResourceObject(DefaultSelectionViewTexture);
 		IconBrushes.Add(Brush);
 	}
+
+	Sw_UnitSelectionView = SNew(SUnitSelectionViewWidget)
+		.IconList(IconBrushes)
+		.SlotPadding(UnitSelectionViewSlotPadding)
+		.BottomScreenPadding(UnitSelectionViewBottomScreenPadding);
+	GEngine->GameViewport->AddViewportWidgetContent(Sw_UnitSelectionView.ToSharedRef());
 }
 
 #pragma endregion

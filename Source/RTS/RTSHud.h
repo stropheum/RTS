@@ -74,6 +74,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RTS HUD", meta = (AllowPrivateAccess = "true"))
 	UTexture2D* DefaultSelectionViewTexture;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RTS HUD")
+	float UnitSelectionViewSlotPadding;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RTS HUD")
+	float UnitSelectionViewBottomScreenPadding;
+
 private:
 	
 	TSharedPtr<SUnitSelectionViewWidget> Sw_UnitSelectionView;

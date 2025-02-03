@@ -10,6 +10,8 @@ class RTS_API SUnitSelectionViewWidget : public SCompoundWidget
 public:
 	SLATE_BEGIN_ARGS(SUnitSelectionViewWidget) {}
 		SLATE_ARGUMENT(TArray<TSharedPtr<FSlateBrush>>, IconList);
+		SLATE_ARGUMENT(float, SlotPadding);
+		SLATE_ARGUMENT(float, BottomScreenPadding);
 	SLATE_END_ARGS()
 
 	/** Constructs this widget with InArgs */
@@ -18,5 +20,5 @@ public:
 private:
 	TArray<TSharedPtr<FSlateBrush>> IconList;
 	const int NumRows = 4;
-	const int NumColumns = 16;
+	const int NumColumns = 8;
 };

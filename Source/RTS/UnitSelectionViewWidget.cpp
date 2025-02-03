@@ -11,7 +11,9 @@ BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SUnitSelectionViewWidget::Construct(const FArguments& InArgs)
 {
 	IconList = InArgs._IconList;
-	const TSharedRef<SUniformGridPanel> GridPanel = SNew(SUniformGridPanel);
+	const TSharedRef<SUniformGridPanel> GridPanel =
+		SNew(SUniformGridPanel)
+		.SlotPadding(InArgs._SlotPadding);
 
 	for (int i = 0; i < IconList.Num(); i++)
 	{
@@ -22,16 +24,15 @@ void SUnitSelectionViewWidget::Construct(const FArguments& InArgs)
 		{
 			GridPanel->AddSlot(Column, Row)
 			[
-				SNew(SImage)
-				.Image(IconList[i].Get())
+				SNew(SImage).Image(IconList[i].Get())
 			];
 		}
 	}
-	
-	ChildSlot
-	[
-		GridPanel
-	];
+
+	ChildSlot[GridPanel]
+	.HAlign(HAlign_Center)
+	.VAlign(VAlign_Bottom)
+	.Padding(0.0f, 0.0f, 0.0f, InArgs._BottomScreenPadding);
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
