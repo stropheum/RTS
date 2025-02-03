@@ -6,6 +6,7 @@
 #include "GameFramework/HUD.h"
 #include "RTSHud.generated.h"
 
+class SUnitSelectionViewWidget;
 class FClassViewerFilter;
 /**
  * 
@@ -14,9 +15,13 @@ UCLASS(Blueprintable)
 class RTS_API ARTSHud : public AHUD
 {
 	GENERATED_BODY()
-	
+
+#pragma region Functions
+
 public:
 	ARTSHud();
+
+	virtual void BeginPlay() override;
 	
 	UFUNCTION(BlueprintCallable, Category = "RTS HUD")
 	FString PassiveSelectionToString();
@@ -25,7 +30,7 @@ public:
 	FString ActiveSelectionToString();
 	
 	TArray<AActor*> GetSelectedUnits();
-
+	
 protected:
 
 	UFUNCTION(BlueprintCallable, category = "RTS HUD")
@@ -39,6 +44,17 @@ protected:
 	
 	UFUNCTION(BlueprintCallable, Category = "RTS HUD")
 	void UpdateSelectionGroup(UClass* ClassFilter);
+
+private:
+	void SlateInitUnitSelectionView();
+	
+#pragma endregion
+
+#pragma region Variables
+
+public:
+
+protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RTS HUD")
 	TArray<AActor*> PendingSelectedActors;
@@ -54,4 +70,14 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RTS HUD")
 	bool IsSelecting;
+
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RTS HUD", meta = (AllowPrivateAccess = "true"))
+	TArray<UTexture2D*> DefaultSelectionViewTextures;
+	
+	TSharedPtr<SUnitSelectionViewWidget> Sw_UnitSelectionView;
+	
+#pragma endregion
+	
+
 };

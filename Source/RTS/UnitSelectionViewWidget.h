@@ -5,9 +5,6 @@
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
 
-/**
- * 
- */
 class RTS_API SUnitSelectionViewWidget : public SCompoundWidget
 {
 public:

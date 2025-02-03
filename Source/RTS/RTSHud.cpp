@@ -1,10 +1,17 @@
 #include "RTSHud.h"
 #include "SelectableUnitInterface.h"
 
+#pragma region Public Functions
+
 ARTSHud::ARTSHud():
-PendingSelectedActors(TArray<AActor*>()), ActiveSelectedActors(TArray<AActor*>()),
-MouseStartPosition(), MouseCurrentPosition(), IsSelecting(false)
-{}
+	PendingSelectedActors(TArray<AActor*>()), ActiveSelectedActors(TArray<AActor*>()),
+	MouseStartPosition(), MouseCurrentPosition(), IsSelecting(false) {}
+
+void ARTSHud::BeginPlay()
+{
+	Super::BeginPlay();
+	SlateInitUnitSelectionView();
+}
 
 FString ARTSHud::PassiveSelectionToString()
 {
@@ -31,6 +38,10 @@ TArray<AActor*> ARTSHud::GetSelectedUnits()
 	return ActiveSelectedActors;
 }
 
+#pragma endregion
+
+#pragma region Protected Functions 
+
 void ARTSHud::HandleMarqueeSelectionPressed()
 {
 	IsSelecting = true;
@@ -47,9 +58,9 @@ void ARTSHud::HandleMarqueeSelectionReleased()
 			ISelectableUnitInterface::Execute_SetSelectionState(Actor, ESelectionState::NotSelected);
 		}
 	}
-	
+
 	ActiveSelectedActors = PendingSelectedActors; // Migrate pending selection to Active
-	
+
 	// Select new active Selection
 	for (AActor* Actor : ActiveSelectedActors)
 	{
@@ -57,7 +68,6 @@ void ARTSHud::HandleMarqueeSelectionReleased()
 		{
 			ISelectableUnitInterface::Execute_SetSelectionState(Actor, ESelectionState::Selected);
 		}
-		
 	}
 }
 
@@ -72,9 +82,10 @@ void ARTSHud::UpdateSelectionGroup(UClass* ClassFilter)
 {
 	constexpr bool IncludeNonCollidingComponent = false;
 	constexpr bool ActorMustBeFullyEnclosed = false;
-	
+
 	TArray<AActor*> NewPendingSelection;
-	GetActorsInSelectionRectangle(MouseStartPosition, MouseCurrentPosition, NewPendingSelection, IncludeNonCollidingComponent, ActorMustBeFullyEnclosed);
+	GetActorsInSelectionRectangle(MouseStartPosition, MouseCurrentPosition, NewPendingSelection, IncludeNonCollidingComponent,
+								  ActorMustBeFullyEnclosed);
 
 	TArray<AActor*> FilteredSelection;
 	for (AActor* Actor : NewPendingSelection)
@@ -85,7 +96,7 @@ void ARTSHud::UpdateSelectionGroup(UClass* ClassFilter)
 			FilteredSelection.Add(Actor);
 		}
 	}
-	
+
 	for (AActor* Actor : PendingSelectedActors)
 	{
 		if (!FilteredSelection.Contains(Actor))
@@ -99,3 +110,28 @@ void ARTSHud::UpdateSelectionGroup(UClass* ClassFilter)
 
 	PendingSelectedActors = FilteredSelection;
 }
+
+void ARTSHud::SlateInitUnitSelectionView()
+{
+	ensureMsgf(GEngine && GEngine->GameViewport, TEXT("GEngine or GameViewport == null"));
+	if (!GEngine || !GEngine->GameViewport) { return; }
+	
+	TArray<TSharedPtr<FSlateBrush>> IconBrushes;
+	for (UTexture2D* Texture : DefaultSelectionViewTextures)
+	{
+		TSharedPtr<FSlateBrush> Brush = MakeShareable(new FSlateBrush());
+		if (Texture)
+		{
+			Brush->SetResourceObject(Texture);
+		}
+		IconBrushes.Add(Brush);
+	}
+}
+
+#pragma endregion
+
+#pragma region Private Functions
+
+
+
+#pragma endregion
