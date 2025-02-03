@@ -105,8 +105,6 @@ void UCommandHandler::MoveActiveUnits(const FVector& CommandLocation)
 void UCommandHandler::HandleIssueActiveCommand()
 {
 	// TODO: Once multiple command types are implemented, use this as a switch for command delegation
-	UE_LOG(LogTemp, Log, TEXT("IssueActiveCommand"));
-	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("HandleIssueActiveCommand"));
 }
 
 void UCommandHandler::HandleIssueMoveCommand()
@@ -120,7 +118,6 @@ void UCommandHandler::HandleIssueMoveCommand()
 	FHitResult Hit;
 	if (PlayerController->GetHitResultUnderCursor(ECC_Visibility, true, Hit))
 	{
-		UE_LOG(LogTemp, Log, TEXT("Spawning command reticle"));
 		SpawnCommandReticle(Hit.Location);
 	}
 	

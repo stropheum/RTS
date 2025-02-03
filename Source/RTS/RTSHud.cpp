@@ -115,15 +115,14 @@ void ARTSHud::SlateInitUnitSelectionView()
 {
 	ensureMsgf(GEngine && GEngine->GameViewport, TEXT("GEngine or GameViewport == null"));
 	if (!GEngine || !GEngine->GameViewport) { return; }
+	ensureMsgf(DefaultSelectionViewTexture, TEXT("DefaultSelectionViewTexture == null"));
+	if (!DefaultSelectionViewTexture) { return; }
 	
 	TArray<TSharedPtr<FSlateBrush>> IconBrushes;
-	for (UTexture2D* Texture : DefaultSelectionViewTextures)
+	for (int i = 0; i < 64; i++)
 	{
 		TSharedPtr<FSlateBrush> Brush = MakeShareable(new FSlateBrush());
-		if (Texture)
-		{
-			Brush->SetResourceObject(Texture);
-		}
+		Brush->SetResourceObject(DefaultSelectionViewTexture);
 		IconBrushes.Add(Brush);
 	}
 }

@@ -71,13 +71,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RTS HUD")
 	bool IsSelecting;
 
-private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RTS HUD", meta = (AllowPrivateAccess = "true"))
-	TArray<UTexture2D*> DefaultSelectionViewTextures;
+	UTexture2D* DefaultSelectionViewTexture;
+
+private:
 	
 	TSharedPtr<SUnitSelectionViewWidget> Sw_UnitSelectionView;
 	
 #pragma endregion
-	
-
 };
