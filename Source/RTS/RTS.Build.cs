@@ -4,13 +4,19 @@ using UnrealBuildTool;
 
 public class RTS : ModuleRules
 {
-	public RTS(ReadOnlyTargetRules Target) : base(Target)
+	public RTS(ReadOnlyTargetRules _) : base(_)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+		bUseUnity = false;
 
-        PublicDependencyModuleNames.AddRange(new string[]
+        PublicDependencyModuleNames.AddRange(collection: new string[]
         {
-	        "Core", "CoreUObject", "Engine", "InputCore", "NavigationSystem", "AIModule", "Niagara", "EnhancedInput", "Slate", "SlateCore"
+	        "Core", "CoreUObject", "Engine", "InputCore", "NavigationSystem", "AIModule", "Niagara", "EnhancedInput"
+        });
+        
+        PublicDependencyModuleNames.AddRange(collection: new string[]
+        {
+	        "Slate", "SlateCore"
         });
     }
 }

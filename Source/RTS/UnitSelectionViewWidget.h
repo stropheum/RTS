@@ -14,8 +14,11 @@ public:
 		SLATE_ARGUMENT(float, BottomScreenPadding);
 	SLATE_END_ARGS()
 
-	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
+
+private:
+	void PopulateDefaultIconList();
+	TSharedRef<class SUniformGridPanel> GenerateGridPanel(float SlotPadding) const;
 
 private:
 	TArray<TSharedPtr<FSlateBrush>> IconList;
