@@ -13,6 +13,7 @@ void ARTSHud::BeginPlay()
 {
 	Super::BeginPlay();
 	SlateInitUnitSelectionView();
+	DefaultSelectionViewTexture->AddToRoot();
 }
 
 FString ARTSHud::PassiveSelectionToString()
@@ -119,11 +120,11 @@ void ARTSHud::SlateInitUnitSelectionView()
 	if (!GEngine || !GEngine->GameViewport) { return; }
 	ensureMsgf(DefaultSelectionViewTexture, TEXT("DefaultSelectionViewTexture == null"));
 	if (!DefaultSelectionViewTexture) { return; }
-	
+
 	TArray<TSharedPtr<FSlateBrush>> IconBrushes;
 	for (int i = 0; i < 64; i++)
 	{
-		BrushSharedPtr = MakeShareable(new FSlateBrush());
+		TSharedPtr<FSlateBrush> BrushSharedPtr = MakeShared<FSlateBrush>();
 		BrushSharedPtr->SetResourceObject(DefaultSelectionViewTexture);
 		BrushSharedPtr->ImageSize = MinimapSize;
 		IconBrushes.Add(BrushSharedPtr);

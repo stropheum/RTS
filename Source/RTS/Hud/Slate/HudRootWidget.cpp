@@ -13,7 +13,7 @@ BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SHudRootWidget::Construct(const FArguments& InArgs)
 {
 	HudContextWeakPtr = InArgs._HudContext;
-	const FVector4f Padding(32.0f, 32.0f, 32.0f, 32.0f);
+	const FVector4f Padding(32.0f, 32.0f, 32.0f, 16.0f);
 
 	ChildSlot
 	[
@@ -45,7 +45,7 @@ void SHudRootWidget::Construct(const FArguments& InArgs)
 				.Padding(Padding)
 			]
 
-			// Spawn Command panel right-justified
+			// // Spawn Command panel right-justified
 			+ SHorizontalBox::Slot()
 			.HAlign(HAlign_Right)
 			.VAlign(VAlign_Bottom)

@@ -87,7 +87,6 @@ protected:
 private:
 	
 	TSharedPtr<SHudRootWidget> UnitSelectionViewSharedPtr;
-	TSharedPtr<FSlateBrush> BrushSharedPtr;
 	
 #pragma endregion
 };

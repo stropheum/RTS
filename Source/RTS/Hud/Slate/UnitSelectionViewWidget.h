@@ -29,7 +29,6 @@ private:
 	
 private:
 	TArray<TSharedPtr<FSlateBrush>> IconList;
-	TSharedPtr<FSlateBrush> Brush;
 	const int NumRows = 4;
 	const int NumColumns = 8;
 	

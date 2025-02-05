@@ -24,14 +24,13 @@ void SUnitSelectionViewWidget::Construct(const FArguments& InArgs)
 
 void SUnitSelectionViewWidget::PopulateDefaultIconList()
 {
-	const FString FilePath = FPaths::ConvertRelativePathToFull(FPaths::ProjectContentDir() + TEXT("Art/unit_selection_frame.png"));
-	if (UTexture2D* Texture = FImageUtils::ImportFileAsTexture2D(FilePath))
+	const FString FilePath = FPaths::ConvertRelativePathToFull(FPaths::ProjectContentDir() + TEXT("Art/unit_selection_frame.unit_selection_frame"));
+	if (UTexture2D* Texture = LoadObject<UTexture2D>(nullptr, TEXT("/Game/Art/unit_selection_frame.unit_selection_frame")))
 	{
-		Brush = MakeShareable(new FSlateBrush);
-		Brush->SetResourceObject(Texture);
-			
 		for (int i = 0; i < 32; i++)
 		{
+			TSharedPtr<FSlateBrush> Brush = MakeShared<FSlateBrush>();
+			Brush->SetResourceObject(Texture);
 			IconList.Add(Brush);
 		}
 	}

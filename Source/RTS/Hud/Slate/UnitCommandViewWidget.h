@@ -24,14 +24,15 @@ public:
 #pragma region Methods
 	
 	void Construct(const FArguments& InArgs);
+	
 	TSharedRef<SUniformGridPanel> GenerateGridPanel(const float SlotPadding) const;
+	
 	void PopulateDefaultIconList();
 
 #pragma endregion Methods
 #pragma region Fields
 
 private:
-	TSharedPtr<FSlateBrush> Brush;
 	TWeakPtr<AHUD> HudContextWeakPtr;
 	TArray<TSharedPtr<FSlateBrush>> IconList;
     const int NumRows = 4;
