@@ -3,6 +3,7 @@
 
 #include "HudRootWidget.h"
 
+#include "BackPanelWidget.h"
 #include "MinimapWidget.h"
 #include "SlateOptMacros.h"
 #include "UnitCommandViewWidget.h"
