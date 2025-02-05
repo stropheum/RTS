@@ -1,7 +1,7 @@
 ﻿#include "RtsHudPreview.h"
 
 #include "LevelEditor.h"
-#include "RTS/UnitSelectionViewWidget.h"
+#include "RTS/Hud/Slate/HudRootWidget.h"
 
 
 #define LOCTEXT_NAMESPACE "FRtsHudPreviewModule"
@@ -29,7 +29,7 @@ void FRtsHudPreviewModule::CreateMenuEntry()
 	{
 		FLevelEditorModule& LevelEditorModule = FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor");
 
-		TSharedPtr<FExtender> Extender = MakeShareable(new FExtender);
+		const TSharedPtr<FExtender> Extender = MakeShareable(new FExtender);
 		Extender->AddMenuExtension(
 			"WindowLayout",
 			EExtensionHook::After,
@@ -60,15 +60,16 @@ void FRtsHudPreviewModule::OpenSlateWindow()
 
 	const TSharedRef<SWindow> WindowInstance = SNew(SWindow)
 		.Title(FText::FromString("RtsHudPreview"))
-		.ClientSize(FVector2D(640, 480))
+		.ClientSize(FVector2D(1280, 720))
 		.SupportsMaximize(false)
 		.SupportsMinimize(false)
 		[
-			SNew(SUnitSelectionViewWidget)
+			SNew(SHudRootWidget)
+			.MinimapImageSize(FVector2f(128.0f, 128.0f))
 		];
 
 	WindowInstanceWeak = WindowInstance;
-
+	
 	FSlateApplication::Get().AddWindow(WindowInstance);
 }
 

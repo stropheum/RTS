@@ -6,6 +6,7 @@
 #include "GameFramework/HUD.h"
 #include "RTSHud.generated.h"
 
+class SHudRootWidget;
 class SUnitSelectionViewWidget;
 class FClassViewerFilter;
 /**
@@ -78,11 +79,15 @@ protected:
 	float UnitSelectionViewSlotPadding;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RTS HUD")
-	float UnitSelectionViewBottomScreenPadding;
+	FVector4f UnitSelectionViewBottomScreenPadding;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RTS HUD")
+	FVector2f MinimapSize;
 
 private:
 	
-	TSharedPtr<SUnitSelectionViewWidget> Sw_UnitSelectionView;
+	TSharedPtr<SHudRootWidget> UnitSelectionViewSharedPtr;
+	TSharedPtr<FSlateBrush> BrushSharedPtr;
 	
 #pragma endregion
 };

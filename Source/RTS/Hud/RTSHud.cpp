@@ -1,12 +1,13 @@
 #include "RTSHud.h"
-#include "SelectableUnitInterface.h"
-#include "UnitSelectionViewWidget.h"
+#include "RTS/SelectableUnitInterface.h"
+#include "Slate/HudRootWidget.h"
 
 #pragma region Public Functions
 
 ARTSHud::ARTSHud():
 	PendingSelectedActors(TArray<AActor*>()), ActiveSelectedActors(TArray<AActor*>()),
-	MouseStartPosition(), MouseCurrentPosition(), IsSelecting(false), DefaultSelectionViewTexture(nullptr) {}
+	MouseStartPosition(), MouseCurrentPosition(), IsSelecting(false), DefaultSelectionViewTexture(nullptr),
+	UnitSelectionViewSlotPadding(0), MinimapSize(400.0f, 400.0f) {}
 
 void ARTSHud::BeginPlay()
 {
@@ -122,16 +123,15 @@ void ARTSHud::SlateInitUnitSelectionView()
 	TArray<TSharedPtr<FSlateBrush>> IconBrushes;
 	for (int i = 0; i < 64; i++)
 	{
-		TSharedPtr<FSlateBrush> Brush = MakeShareable(new FSlateBrush());
-		Brush->SetResourceObject(DefaultSelectionViewTexture);
-		IconBrushes.Add(Brush);
+		BrushSharedPtr = MakeShareable(new FSlateBrush());
+		BrushSharedPtr->SetResourceObject(DefaultSelectionViewTexture);
+		BrushSharedPtr->ImageSize = MinimapSize;
+		IconBrushes.Add(BrushSharedPtr);
 	}
 
-	Sw_UnitSelectionView = SNew(SUnitSelectionViewWidget)
-		.IconList(IconBrushes)
-		.SlotPadding(UnitSelectionViewSlotPadding)
-		.BottomScreenPadding(UnitSelectionViewBottomScreenPadding);
-	GEngine->GameViewport->AddViewportWidgetContent(Sw_UnitSelectionView.ToSharedRef());
+	UnitSelectionViewSharedPtr = SNew(SHudRootWidget)
+		.MinimapImageSize(FVector2f(256.0f, 256.0f));
+	GEngine->GameViewport->AddViewportWidgetContent(UnitSelectionViewSharedPtr.ToSharedRef());
 }
 
 #pragma endregion

@@ -4,7 +4,7 @@
 #include "Engine/DecalActor.h"
 #include "NiagaraFunctionLibrary.h"
 #include "CommandableInterface.h"
-#include "RTSHud.h"
+#include "RTS/Hud/RTSHud.h"
 
 
 // Sets default values for this component's properties

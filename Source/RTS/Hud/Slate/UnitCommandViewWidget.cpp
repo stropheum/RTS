@@ -1,4 +1,7 @@
-﻿#include "UnitSelectionViewWidget.h"
+﻿// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "UnitCommandViewWidget.h"
 
 #include "ImageUtils.h"
 #include "SlateOptMacros.h"
@@ -6,7 +9,7 @@
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
-void SUnitSelectionViewWidget::Construct(const FArguments& InArgs)
+void SUnitCommandViewWidget::Construct(const FArguments& InArgs)
 {
 	IconList = InArgs._IconList;
 	if (IconList.IsEmpty())
@@ -19,25 +22,10 @@ void SUnitSelectionViewWidget::Construct(const FArguments& InArgs)
 	ChildSlot[GridPanel]
 	.HAlign(HAlign_Center)
 	.VAlign(VAlign_Bottom)
-	.Padding(0.0f, 0.0f, 0.0f, InArgs._BottomScreenPadding);
+	.Padding(InArgs._Padding);
 }
 
-void SUnitSelectionViewWidget::PopulateDefaultIconList()
-{
-	const FString FilePath = FPaths::ConvertRelativePathToFull(FPaths::ProjectContentDir() + TEXT("Art/unit_selection_frame.png"));
-	if (UTexture2D* Texture = FImageUtils::ImportFileAsTexture2D(FilePath))
-	{
-		TSharedPtr<FSlateBrush> Brush = MakeShareable(new FSlateBrush);
-		Brush->SetResourceObject(Texture);
-			
-		for (int i = 0; i < 32; i++)
-		{
-			IconList.Add(Brush);
-		}
-	}
-}
-
-TSharedRef<SUniformGridPanel> SUnitSelectionViewWidget::GenerateGridPanel(const float SlotPadding) const
+TSharedRef<SUniformGridPanel> SUnitCommandViewWidget::GenerateGridPanel(const float SlotPadding) const
 {
 	const TSharedRef<SUniformGridPanel> GridPanel = SNew(SUniformGridPanel)
 			.SlotPadding(SlotPadding);
@@ -57,6 +45,21 @@ TSharedRef<SUniformGridPanel> SUnitSelectionViewWidget::GenerateGridPanel(const 
 	}
 
 	return GridPanel;
+}
+
+void SUnitCommandViewWidget::PopulateDefaultIconList()
+{
+	const FString FilePath = FPaths::ConvertRelativePathToFull(FPaths::ProjectContentDir() + TEXT("Art/unit_selection_frame.png"));
+	if (UTexture2D* Texture = FImageUtils::ImportFileAsTexture2D(FilePath))
+	{
+		Brush = MakeShareable(new FSlateBrush);
+		Brush->SetResourceObject(Texture);
+			
+		for (int i = 0; i < 32; i++)
+		{
+			IconList.Add(Brush);
+		}
+	}
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
