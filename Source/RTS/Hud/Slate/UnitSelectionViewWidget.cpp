@@ -49,6 +49,7 @@ TSharedRef<SUniformGridPanel> SUnitSelectionViewWidget::GenerateGridPanel(const 
 
 		if (Row < NumRows)
 		{
+			IconList[i].Get()->ImageSize = FVector2f(48.0f, 48.0f);
 			GridPanel->AddSlot(Column, Row)
 			[
 				SNew(SImage).Image(IconList[i].Get())
