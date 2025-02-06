@@ -14,51 +14,45 @@ BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SHudRootWidget::Construct(const FArguments& InArgs)
 {
 	HudContextWeakPtr = InArgs._HudContext;
-	const FVector4f Padding(32.0f, 32.0f, 32.0f, 16.0f);
-
+	constexpr float BorderThickness = 20.0f;
+	
 	ChildSlot
 	[
-		SNew(SOverlay)
-		+ SOverlay::Slot()
-		.VAlign(VAlign_Bottom)
-		[
-			SNew(SBackPanelWidget)
-		]
-		.VAlign(VAlign_Bottom)
+		SNew(SBackPanelWidget)
 		[
 			SNew(SHorizontalBox)
 
-			// Spawn minimap left-justified
+			// Minimap on the left
 			+ SHorizontalBox::Slot()
 			.HAlign(HAlign_Left)
 			.VAlign(VAlign_Bottom)
 			.AutoWidth()
+			.Padding(BorderThickness + 16.0f, 0.0f, 0.0f, BorderThickness + 8.0f)
 			[
 				SNew(SMinimapWidget)
 				.ImageSize(InArgs._MinimapImageSize)
-				.Padding(Padding)
 			]
 
-			// Spawn unit selection view in the center
+			// Unit Selection View in the center
 			+ SHorizontalBox::Slot()
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Bottom)
 			.FillWidth(1.0f)
+			.Padding(0.0f, 0.0f, 0.0f, BorderThickness)
 			[
 				SNew(SUnitSelectionViewWidget)
 				.SlotPadding(4.0f)
-				.Padding(Padding)
 			]
 
-			// // Spawn Command panel right-justified
+			// Command Panel on the right
 			+ SHorizontalBox::Slot()
 			.HAlign(HAlign_Right)
 			.VAlign(VAlign_Bottom)
 			.AutoWidth()
+			.Padding(0.0f, 0.f, BorderThickness + 8.0f, BorderThickness)
 			[
 				SNew(SUnitCommandViewWidget)
 				.SlotPadding(4.0f)
-				.Padding(Padding)
 			]
 		]
 	];

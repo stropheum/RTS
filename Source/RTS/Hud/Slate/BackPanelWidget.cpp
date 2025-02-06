@@ -12,18 +12,32 @@ void SBackPanelWidget::Construct(const FArguments& InArgs)
 		UE_LOG(LogTemp, Error, TEXT("Failed to load texture. Aborting render back panel"));
 		return;
 	}
-
+	
 	Brush = MakeShared<FSlateBrush>();
 	Brush->SetResourceObject(Texture);
 	Brush->SetImageSize(Texture->GetImportedSize());
 	
-	ChildSlot
-	[
-		SNew(SBox)
-		[
-			SNew(SImage).Image(Brush.Get())
-		]
-	]; 
+    ChildSlot
+    [
+	    SNew(SOverlay)
+	    + SOverlay::Slot()
+	    .HAlign(HAlign_Fill)
+	    .VAlign(VAlign_Fill)
+	    [
+	    	SNew(SBox)
+			// .Padding(InArgs._Padding)
+			[
+				SNew(SImage)
+				.Image(Brush.Get())
+			]    
+	    ]
+	    + SOverlay::Slot()
+	    .HAlign(HAlign_Fill)
+    	.VAlign(VAlign_Fill)
+    	[
+    		InArgs._Content.Widget
+    	]
+    ]; 
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION

@@ -3,7 +3,6 @@
 
 #include "UnitCommandViewWidget.h"
 
-#include "ImageUtils.h"
 #include "SlateOptMacros.h"
 #include "Widgets/Layout/SUniformGridPanel.h"
 
@@ -37,7 +36,7 @@ TSharedRef<SUniformGridPanel> SUnitCommandViewWidget::GenerateGridPanel(const fl
 
 		if (Row < NumRows)
 		{
-			IconList[i].Get()->ImageSize = FVector2D(64.0f, 64.0f);
+			IconList[i].Get()->ImageSize = FVector2D(58.0f, 58.0f);
 			GridPanel->AddSlot(Column, Row)
 			[
 				SNew(SImage).Image(IconList[i].Get())
