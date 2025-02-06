@@ -22,6 +22,10 @@ void SHudRootWidget::Construct(const FArguments& InArgs)
 		+ SOverlay::Slot()
 		.VAlign(VAlign_Bottom)
 		[
+			SNew(SBackPanelWidget)
+		]
+		.VAlign(VAlign_Bottom)
+		[
 			SNew(SHorizontalBox)
 
 			// Spawn minimap left-justified

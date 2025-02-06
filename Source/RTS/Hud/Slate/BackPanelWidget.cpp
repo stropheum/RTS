@@ -13,8 +13,9 @@ void SBackPanelWidget::Construct(const FArguments& InArgs)
 		return;
 	}
 
-	const TSharedPtr<FSlateBrush> Brush = MakeShared<FSlateBrush>();
+	Brush = MakeShared<FSlateBrush>();
 	Brush->SetResourceObject(Texture);
+	Brush->SetImageSize(Texture->GetImportedSize());
 	
 	ChildSlot
 	[
