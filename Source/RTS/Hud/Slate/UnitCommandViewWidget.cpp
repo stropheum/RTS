@@ -4,6 +4,7 @@
 #include "UnitCommandViewWidget.h"
 
 #include "SlateOptMacros.h"
+#include "UnitIcon.h"
 #include "Widgets/Layout/SUniformGridPanel.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
@@ -39,8 +40,10 @@ TSharedRef<SUniformGridPanel> SUnitCommandViewWidget::GenerateGridPanel(const fl
 			IconList[i].Get()->ImageSize = FVector2D(58.0f, 58.0f);
 			GridPanel->AddSlot(Column, Row)
 			[
-				SNew(SImage).Image(IconList[i].Get())
-			];
+				SNew(SUnitIcon).Image(IconList[i])
+			]
+			.VAlign(VAlign_Center)
+			.HAlign(HAlign_Center);
 		}
 	}
 

@@ -1,7 +1,7 @@
 ﻿#include "UnitSelectionViewWidget.h"
 
-#include "ImageUtils.h"
 #include "SlateOptMacros.h"
+#include "UnitIcon.h"
 #include "Widgets/Layout/SUniformGridPanel.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
@@ -50,7 +50,7 @@ TSharedRef<SUniformGridPanel> SUnitSelectionViewWidget::GenerateGridPanel(const 
 			IconList[i].Get()->ImageSize = FVector2f(48.0f, 48.0f);
 			GridPanel->AddSlot(Column, Row)
 			[
-				SNew(SImage).Image(IconList[i].Get())
+				SNew(SUnitIcon).Image(IconList[i])
 			];
 		}
 	}
