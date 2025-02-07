@@ -14,6 +14,12 @@ public:
 	
 	void Construct(const FArguments& InArgs);
 
+protected:
+	TSharedRef<SWidget> GenerateButtonWidget(TSharedPtr<FString> Item);
+	FReply OnButtonClicked(TSharedPtr<FString> Item);
+	void OnSelectionChanged(TSharedPtr<FString> NewSelection, ESelectInfo::Type SelectInfo);
+
 private:
 	TSharedPtr<FRtsLevelEditorModule> Context;
+	TArray<TSharedPtr<FString>> MirrorModeOptions;
 };

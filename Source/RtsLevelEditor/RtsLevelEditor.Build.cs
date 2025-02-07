@@ -11,6 +11,7 @@ public class RtsLevelEditor : ModuleRules
             new string[]
             {
                 "Core",
+                "InputCore"
             }
         );
 

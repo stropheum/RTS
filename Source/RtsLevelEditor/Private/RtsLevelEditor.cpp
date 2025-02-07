@@ -1,6 +1,7 @@
 ﻿#include "RtsLevelEditor.h"
 
 #include "LevelEditor.h"
+#include "RtsLevelEditor/MirrorModeWidget.h"
 
 #define LOCTEXT_NAMESPACE "FRtsLevelEditorModule"
 
@@ -11,7 +12,7 @@ void FRtsLevelEditorModule::StartupModule()
 		NomadTabName,
 		FOnSpawnTab::CreateRaw(this, &FRtsLevelEditorModule::SpawnRtsEditorTab));
 	Foo.SetIcon(FSlateIcon(FAppStyle::GetAppStyleSetName(), "Icons.Levels"));
-	
+
 	if (FModuleManager::Get().IsModuleLoaded("LevelEditor"))
 	{
 		FLevelEditorModule& LevelEditorModule = FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor");
@@ -55,8 +56,7 @@ TSharedRef<SDockTab> FRtsLevelEditorModule::SpawnRtsEditorTab(const FSpawnTabArg
 	return SNew(SDockTab)
 		.TabRole(NomadTab)
 		[
-			SNew(STextBlock)
-			.Text(FText::FromString("Hello, RtsLevelEditor!"))
+			SNew(SMirrorModeWidget)
 		];
 }
 
