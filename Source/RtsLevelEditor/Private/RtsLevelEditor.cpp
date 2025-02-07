@@ -8,10 +8,10 @@
 void FRtsLevelEditorModule::StartupModule()
 {
 	UE_LOG(LogTemp, Warning, TEXT("RtsLevelEditorModule::StartupModule() called"));
-	FTabSpawnerEntry Foo = FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
+	FTabSpawnerEntry Entry = FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
 		NomadTabName,
 		FOnSpawnTab::CreateRaw(this, &FRtsLevelEditorModule::SpawnRtsEditorTab));
-	Foo.SetIcon(FSlateIcon());
+	Entry.SetIcon(FSlateIcon());
 
 	if (FModuleManager::Get().IsModuleLoaded("LevelEditor"))
 	{
@@ -54,22 +54,36 @@ void FRtsLevelEditorModule::ExtendToolBar(FToolBarBuilder& ToolBarBuilder)
 // ReSharper disable once CppMemberFunctionMayBeStatic
 TSharedRef<SDockTab> FRtsLevelEditorModule::SpawnRtsEditorTab(const FSpawnTabArgs& Args)
 {
-	return SNew(SDockTab)
-		.TabRole(NomadTab)
+	TSharedRef<SVerticalBox> VerticalMenuWidget = SNew(SVerticalBox)
+		+ SVerticalBox::Slot()
+		.AutoHeight()
 		[
-			SNew(SVerticalBox)
-			+ SVerticalBox::Slot()
-			.AutoHeight()
+			SNew(SExpandableArea)
+			.AreaTitle(FText::FromString("Brush Options"))
+			.InitiallyCollapsed(false)
+			.BodyContent()
 			[
-				SNew(SExpandableArea)
-				.AreaTitle(FText::FromString("Brush Options"))
-				.InitiallyCollapsed(false)
-				.BodyContent()
-				[
-					SNew(SMirrorModeWidget)	
-				]
+				SNew(SMirrorModeWidget)
 			]
 		];
+
+	TSharedRef<SDockTab> Tab = SNew(SDockTab)
+		.TabRole(NomadTab)
+		.ShouldAutosize(true)
+		.OnTabActivated_Lambda([Tab, VerticalMenuWidget](TSharedRef<SDockTab> ActivatedTab, ETabActivationCause)
+		{
+			// Resize the parent window once the tab is activated
+			if (TSharedPtr<SWindow> ParentWindow = ActivatedTab->GetParentWindow())
+			{
+				FVector2D DesiredSize = VerticalMenuWidget->GetDesiredSize();
+				ParentWindow->Resize(DesiredSize); // Resize parent window to fit content
+			}
+		})
+		[
+			VerticalMenuWidget
+		];
+	
+	return Tab;
 }
 
 void FRtsLevelEditorModule::OpenEditorWindow() const
