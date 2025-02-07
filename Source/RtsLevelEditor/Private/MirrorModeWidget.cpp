@@ -65,7 +65,6 @@ TSharedRef<SWidget> SMirrorModeWidget::GenerateButtonWidget(TSharedPtr<FString> 
 FReply SMirrorModeWidget::OnButtonClicked(TSharedPtr<FString> NewSelection)
 {
 	ComboBox->SetSelectedItem(NewSelection);
-	UE_LOG(LogTemp, Warning, TEXT("Button clicked: %s"), **NewSelection);
 	return FReply::Handled();
 }
 
@@ -75,7 +74,6 @@ void SMirrorModeWidget::OnSelectionChanged(TSharedPtr<FString> NewSelection, ESe
 	if (NewSelection.IsValid())
 	{
 		ActiveSelection = NewSelection;
-		UE_LOG(LogTemp, Warning, TEXT("Selected: %s"), **NewSelection);
 	}
 }
 
