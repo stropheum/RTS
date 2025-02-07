@@ -16,6 +16,12 @@
 			"Name": "RtsHudPreview",
 			"Type": "Editor",
 			"LoadingPhase": "PostEngineInit"
+		},
+		{
+			"Name": "RtsLevelEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default",
+			"Hidden": true
 		}
 	],
 	"Plugins": [

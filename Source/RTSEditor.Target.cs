@@ -16,6 +16,6 @@ public class RTSEditorTarget : TargetRules
 
 	private void RegisterModulesCreatedByRider()
 	{
-		ExtraModuleNames.AddRange(new string[] { "RtsHudPreview" });
+		ExtraModuleNames.AddRange(new string[] { "RtsHudPreview", "RtsLevelEditor" });
 	}
 }

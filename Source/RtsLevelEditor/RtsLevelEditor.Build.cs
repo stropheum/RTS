@@ -1,8 +1,8 @@
 ﻿using UnrealBuildTool;
 
-public class RtsHudPreview : ModuleRules
+public class RtsLevelEditor : ModuleRules
 {
-    public RtsHudPreview(ReadOnlyTargetRules Target) : base(Target)
+    public RtsLevelEditor(ReadOnlyTargetRules Target) : base(Target)
     {
         PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
         bUseUnity = false;
@@ -19,9 +19,9 @@ public class RtsHudPreview : ModuleRules
             {
                 "CoreUObject",
                 "Engine",
+                "LevelEditor",
                 "Slate",
-                "SlateCore",
-                "RTS"
+                "SlateCore"
             }
         );
     }
