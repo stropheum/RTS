@@ -1,7 +1,7 @@
 ﻿#include "RtsLevelEditor.h"
 
 #include "LevelEditor.h"
-#include "RtsLevelEditor/MirrorModeWidget.h"
+#include "RtsLevelEditor/Public/MirrorModeWidget.h"
 
 #define LOCTEXT_NAMESPACE "FRtsLevelEditorModule"
 
@@ -11,7 +11,7 @@ void FRtsLevelEditorModule::StartupModule()
 	FTabSpawnerEntry Foo = FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
 		NomadTabName,
 		FOnSpawnTab::CreateRaw(this, &FRtsLevelEditorModule::SpawnRtsEditorTab));
-	Foo.SetIcon(FSlateIcon(FAppStyle::GetAppStyleSetName(), "Icons.Levels"));
+	Foo.SetIcon(FSlateIcon());
 
 	if (FModuleManager::Get().IsModuleLoaded("LevelEditor"))
 	{
@@ -19,7 +19,7 @@ void FRtsLevelEditorModule::StartupModule()
 
 		ToolBarExtender = MakeShared<FExtender>();
 		ToolBarExtender->AddToolBarExtension(
-			"Play",
+			"Content",
 			EExtensionHook::After,
 			nullptr,
 			FToolBarExtensionDelegate::CreateRaw(this, &FRtsLevelEditorModule::ExtendToolBar)
@@ -48,15 +48,27 @@ void FRtsLevelEditorModule::ExtendToolBar(FToolBarBuilder& ToolBarBuilder)
 		NAME_None,
 		FText::FromString("Open My Editor"),
 		FText::FromString("Opens my custom editor window"),
-		FSlateIcon(FAppStyle::GetAppStyleSetName(), "Icons.Levels"));
+		FSlateIcon());
 }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
 TSharedRef<SDockTab> FRtsLevelEditorModule::SpawnRtsEditorTab(const FSpawnTabArgs& Args)
 {
 	return SNew(SDockTab)
 		.TabRole(NomadTab)
 		[
-			SNew(SMirrorModeWidget)
+			SNew(SVerticalBox)
+			+ SVerticalBox::Slot()
+			.AutoHeight()
+			[
+				SNew(SExpandableArea)
+				.AreaTitle(FText::FromString("Brush Options"))
+				.InitiallyCollapsed(false)
+				.BodyContent()
+				[
+					SNew(SMirrorModeWidget)	
+				]
+			]
 		];
 }
 

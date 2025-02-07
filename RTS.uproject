@@ -1,36 +1,35 @@
 {
-	"FileVersion": 3,
-	"EngineAssociation": "5.5",
-	"Category": "",
-	"Description": "",
-	"Modules": [
-		{
-			"Name": "RTS",
-			"Type": "Runtime",
-			"LoadingPhase": "Default",
-			"AdditionalDependencies": [
-				"Engine"
-			]
-		},
-		{
-			"Name": "RtsHudPreview",
-			"Type": "Editor",
-			"LoadingPhase": "PostEngineInit"
-		},
-		{
-			"Name": "RtsLevelEditor",
-			"Type": "Editor",
-			"LoadingPhase": "Default",
-			"Hidden": true
-		}
-	],
-	"Plugins": [
-		{
-			"Name": "ModelingToolsEditorMode",
-			"Enabled": true,
-			"TargetAllowList": [
-				"Editor"
-			]
-		}
-	]
+  "FileVersion": 3,
+  "EngineAssociation": "5.5",
+  "Category": "",
+  "Description": "",
+  "Modules": [
+    {
+      "Name": "RTS",
+      "Type": "Runtime",
+      "LoadingPhase": "Default",
+      "AdditionalDependencies": [
+        "Engine"
+      ]
+    },
+    {
+      "Name": "RtsHudPreview",
+      "Type": "Editor",
+      "LoadingPhase": "PostEngineInit"
+    },
+    {
+      "Name": "RtsLevelEditor",
+      "Type": "Editor",
+      "LoadingPhase": "Default"
+    }
+  ],
+  "Plugins": [
+    {
+      "Name": "ModelingToolsEditorMode",
+      "Enabled": true,
+      "TargetAllowList": [
+        "Editor"
+      ]
+    }
+  ]
 }

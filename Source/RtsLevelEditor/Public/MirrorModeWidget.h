@@ -15,11 +15,13 @@ public:
 	void Construct(const FArguments& InArgs);
 
 protected:
-	TSharedRef<SWidget> GenerateButtonWidget(TSharedPtr<FString> Item);
-	FReply OnButtonClicked(TSharedPtr<FString> Item);
+	TSharedRef<SWidget> GenerateButtonWidget(TSharedPtr<FString> NewSelection);
+	FReply OnButtonClicked(TSharedPtr<FString> NewSelection);
 	void OnSelectionChanged(TSharedPtr<FString> NewSelection, ESelectInfo::Type SelectInfo);
 
 private:
 	TSharedPtr<FRtsLevelEditorModule> Context;
+	TSharedPtr<SComboBox<TSharedPtr<FString>>> ComboBox;
 	TArray<TSharedPtr<FString>> MirrorModeOptions;
+	TSharedPtr<FString> ActiveSelection;
 };
